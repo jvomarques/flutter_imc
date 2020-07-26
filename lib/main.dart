@@ -92,12 +92,14 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Icon(Icons.person, size: 120, color: Colors.indigo),
+              // Icon(Icons.person, size: 120, color: Colors.indigo),
+              Image(image: AssetImage("images/home.jpg"), height: 300,),
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Peso (kg)",
-                  labelStyle: TextStyle(color: Colors.indigo)
+                  labelStyle: TextStyle(color: Colors.indigo),
+                  prefixIcon: Icon(Icons.person, color: Colors.indigo),
                 ),
                 controller: pesoController,
                 validator: (peso) {
@@ -109,7 +111,8 @@ class _HomeState extends State<Home> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Altura (cm)",
-                  labelStyle: TextStyle(color: Colors.indigo)
+                  labelStyle: TextStyle(color: Colors.indigo),
+                  prefixIcon: Icon(Icons.show_chart, color: Colors.indigo),
                 ),
                 controller: alturaController,
                 validator: (altura) {
@@ -133,12 +136,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
               ),
-              Text(
-                _textoResultado,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.indigo, fontSize: 25.0),
-              )
-
             ],
           ),
         )
