@@ -21,7 +21,8 @@ class _HomeState extends State<Home> {
   TextEditingController pesoController = TextEditingController();
   TextEditingController alturaController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _textInfo = "";
+  String _textoResultado = "";
+  String _imagemResultado = "";
 
   void _calcular() {
     setState(() {
@@ -30,21 +31,33 @@ class _HomeState extends State<Home> {
       double altura = double.parse(alturaController.text)/100;
       double imc = peso/(altura*altura);
 
-      if (imc < 18.6)
-        _textInfo = "Abaixo do peso (${imc.toStringAsPrecision(4)})";
-      else if (imc >= 18.6 && imc < 24.9)
-        _textInfo = "Peso ideal (${imc.toStringAsPrecision(4)})";
-      else if (imc >= 24.9 && imc < 29.9)
-        _textInfo = "Levemente acima do peso (${imc.toStringAsPrecision(4)})";
-      else if (imc >= 29.9 && imc < 34.9)
-        _textInfo = "Obesidade Grau I (${imc.toStringAsPrecision(4)})";
-      else if (imc >= 34.9 && imc < 39.9)
-        _textInfo = "Obesidade Grau II (${imc.toStringAsPrecision(4)})";
-      else if (imc >= 40)
-        _textInfo = "Obesidade Grau III (${imc.toStringAsPrecision(4)})";
+      if (imc < 18.6){
+        _textoResultado = "Abaixo do peso (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "thin-man.png";
+      }
+      else if (imc >= 18.6 && imc < 24.9){
+        _textoResultado = "Peso ideal (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "medium-man.png";
+      }
+      else if (imc >= 24.9 && imc < 29.9){
+        _textoResultado = "Levemente acima do peso (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "little-fat-man.png";
+      }
+      else if (imc >= 29.9 && imc < 34.9){
+        _textoResultado = "Obesidade Grau I (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "fat-man.png";
+      }
+      else if (imc >= 34.9 && imc < 39.9){
+        _textoResultado = "Obesidade Grau II (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "big-fat-man.png";
+      }
+      else if (imc >= 40){
+        _textoResultado = "Obesidade Grau III (${imc.toStringAsPrecision(4)})";
+        _imagemResultado = "big-fat-man.png";
+      }
 
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        Resultado(_textInfo)));
+        Resultado(_textoResultado, _imagemResultado)));
 
     });
   }
@@ -54,7 +67,7 @@ class _HomeState extends State<Home> {
     pesoController.clear();
     alturaController.clear();
     setState(() {
-      _textInfo = "";
+      _textoResultado = "";
     });
   }
 
@@ -71,6 +84,7 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: Form(
@@ -109,17 +123,18 @@ class _HomeState extends State<Home> {
                   ButtonTheme(
                     height: 50,
                     child: RaisedButton(
-                      color: Colors.indigo,
                       onPressed: () { 
                         if (_formKey.currentState.validate())
                            _calcular();
-                       },
+                      },
+                      color: Colors.indigo,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                       child: Text("Calcular", style: TextStyle(color: Colors.white, fontSize: 25.0)),  
                     ),
                   ),
               ),
               Text(
-                _textInfo,
+                _textoResultado,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.indigo, fontSize: 25.0),
               )
